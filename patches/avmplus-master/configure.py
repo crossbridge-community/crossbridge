@@ -410,6 +410,27 @@ elif config.getCompiler() == 'SunStudio':
     APP_CXXFLAGS = "-template=no%extdef -erroff"
     OPT_CXXFLAGS = "-xO2 "
     DEBUG_CXXFLAGS += "-g "
+elif config.getCompiler() == 'clang':
+    APP_CXXFLAGS += "-Wall -Wcast-align -Wdisabled-optimization -Wextra -Wformat=2 -Winit-self -Winvalid-pch -Wno-invalid-offsetof -Wno-switch "\
+                       "-Wparentheses -Wpointer-arith -Wreorder -Wsign-compare -Wunused-parameter -Wwrite-strings -Wno-ctor-dtor-privacy -Woverloaded-virtual "\
+                       "-Wsign-promo -Wno-char-subscripts -fmessage-length=0 -fno-exceptions -fno-rtti -fstrict-aliasing -fsigned-char  "
+   
+    FLOAT_ABI = None;
+    EXTRA_CFLAGS = "";
+    if EXTRA_CFLAGS != None:
+        APP_CXXFLAGS += EXTRA_CFLAGS
+        APP_CFLAGS += EXTRA_CFLAGS
+    if FLOAT_ABI != None:
+        APP_CXXFLAGS += FLOAT_ABI
+        APP_CFLAGS += FLOAT_ABI
+        AVMSHELL_LDFLAGS += FLOAT_ABI
+
+    if config.getDebug():
+        APP_CXXFLAGS += ""
+    else:
+        APP_CXXFLAGS += "-Wuninitialized "
+    DEBUG_CXXFLAGS += "-g "
+    DEBUG_LDFLAGS += "-g "
 else:
     raise Exception('Unrecognized compiler: ' + config.getCompiler())
 
@@ -445,7 +466,9 @@ if the_os == "darwin":
                          '_MAC': None,
                          'AVMPLUS_MAC': None,
                          'TARGET_RT_MAC_MACHO': 1})
-    APP_CXXFLAGS += "-fpascal-strings -faltivec -fasm-blocks "
+    APP_CXXFLAGS += "-fpascal-strings -fasm-blocks "
+    if config.getCompiler() != 'clang':
+        APP_CXXFLAGS += "-faltivec "
 
     # If an sdk is selected align OS and gcc/g++ versions to it
     os_ver,sdk_path = _setSDKParams(o.mac_sdk, os_ver, o.mac_xcode)

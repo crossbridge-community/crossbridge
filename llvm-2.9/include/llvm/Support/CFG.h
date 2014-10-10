@@ -39,7 +39,8 @@ class PredIterator : public std::iterator<std::forward_iterator_tag,
   }
 
 public:
-  typedef typename super::pointer pointer;
+  typedef Ptr*& reference;
+  typedef Ptr* pointer;
 
   PredIterator() {}
   explicit inline PredIterator(Ptr *bb) : It(bb->use_begin()) {
@@ -105,7 +106,8 @@ class SuccIterator : public std::iterator<std::bidirectional_iterator_tag,
   }
 
 public:
-  typedef typename super::pointer pointer;
+  typedef BB_*& reference;
+  typedef BB_* pointer;
   // TODO: This can be random access iterator, only operator[] missing.
 
   explicit inline SuccIterator(Term_ T) : Term(T), idx(0) {// begin iterator

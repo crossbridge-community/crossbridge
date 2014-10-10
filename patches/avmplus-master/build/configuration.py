@@ -213,6 +213,8 @@ class Configuration:
         # Hackery! Make assumptions that we want to build with GCC 3.3 on MacPPC
         # and GCC4 on MacIntel
         elif self._target[0] == 'darwin':
+            if options.getBoolArg("clang", False):
+                self._compiler = 'clang'
             self._acvars.update({
                 'DLL_SUFFIX'   : 'dylib',
                 'CPPFLAGS'     : '-pipe',
