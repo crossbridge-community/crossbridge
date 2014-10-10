@@ -25,7 +25,7 @@ $?DEPENDENCY_LIBTOOL=libtool-2.4.2
 $?DEPENDENCY_LLVM=llvm-2.9
 $?DEPENDENCY_LLVM_GCC=llvm-gcc-4.2-2.9
 $?DEPENDENCY_MAKE=make-4.0
-$?DEPENDENCY_PKG_CFG=pkg-config-0.26
+$?DEPENDENCY_PKG_CFG=pkg-config-0.28
 $?DEPENDENCY_SWIG=swig-3.0.0
 # Dependency Testing
 $?DEPENDENCY_DEJAGNU=dejagnu-1.5
@@ -1160,7 +1160,7 @@ pkgconfig:
 	mkdir -p $(BUILD)/pkgconfig
 	cd $(BUILD)/pkgconfig && CFLAGS="-I$(SRCROOT)/avm2_env/misc" $(SRCROOT)/$(DEPENDENCY_PKG_CFG)/configure \
 		--prefix=$(SDK)/usr --build=$(BUILD_TRIPLE) --host=$(HOST_TRIPLE) --target=$(TRIPLE) --disable-shared \
-		--disable-dependency-tracking
+		--disable-dependency-tracking --with-internal-glib
 	cd $(BUILD)/pkgconfig && $(MAKE) && $(MAKE) install
 
 # GNU libtool is a generic library support script. 
